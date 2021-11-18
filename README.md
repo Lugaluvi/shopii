@@ -1,4 +1,4 @@
-#Flutter - Shopping List
+# Flutter - Shopping List
 
 A shopping list app made entirely in Flutter.
 
