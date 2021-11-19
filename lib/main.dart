@@ -10,10 +10,10 @@ class ShoppiApp extends StatefulWidget {
   const ShoppiApp({Key? key}) : super(key: key);
 
   @override
-  State<ShoppiApp> createState() => _NotesAppState();
+  State<ShoppiApp> createState() => _ShoppiAppState();
 }
 
-class _NotesAppState extends State<ShoppiApp> {
+class _ShoppiAppState extends State<ShoppiApp> {
   late Future<FirebaseApp> _firebaseInit;
 
   Future<FirebaseApp> _initializeFirebase() async {
@@ -31,6 +31,7 @@ class _NotesAppState extends State<ShoppiApp> {
     return FutureBuilder(
       future: _firebaseInit,
       builder: (context, snapshot) {
+        print(snapshot);
         if (snapshot.hasError) {
           return const MaterialApp(
             home: Scaffold(
