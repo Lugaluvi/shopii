@@ -1,20 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shopping_list/shopii_service.dart';
 import 'dart:math' as math;
 
 import 'home.view.dart';
 
-class LoginAccount extends StatefulWidget {
-  const LoginAccount({Key? key}) : super(key: key);
+class CreateItem extends StatefulWidget {
+  const CreateItem({Key? key}) : super(key: key);
 
   @override
-  _LoginAccountState createState() => _LoginAccountState();
+  _CreateItemState createState() => _CreateItemState();
 }
 
-class _LoginAccountState extends State<LoginAccount> {
-  late String email;
-  late String password;
+class _CreateItemState extends State<CreateItem> {
+  late String title = '';
+  late String qnt = '';
   final _auth = FirebaseAuth.instance;
 
   @override
@@ -28,7 +29,8 @@ class _LoginAccountState extends State<LoginAccount> {
           padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 const SizedBox(height: 15.0),
@@ -38,7 +40,7 @@ class _LoginAccountState extends State<LoginAccount> {
                   children: <Widget>[
                     Row(children: <Widget>[
                       Text(
-                        'Entrar na conta',
+                        'Criar item',
                         style: GoogleFonts.poppins(
                           fontSize: 20,
                           color: Colors.white,
@@ -67,7 +69,7 @@ class _LoginAccountState extends State<LoginAccount> {
                       borderSide:
                       BorderSide(color: Color(0xFF5600C3)),
                     ),
-                    labelText: 'Insira seu e-mail',
+                    labelText: 'Título do item',
                     labelStyle: TextStyle(
                       color: Colors.white,
                       fontSize: 15.0,
@@ -77,42 +79,45 @@ class _LoginAccountState extends State<LoginAccount> {
                   style: const TextStyle(color: Colors.white),
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor, informe seu e-mail.';
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Yay! A SnackBar!')));
                     }
                     return null;
                   },
                   onChanged: (value) {
-                    email = value;
+                    title = value;
                   },
                 ),
                 const SizedBox(height: 15.0),
-                TextFormField(
-                  cursorColor: Color(0xFF5600C3),
-                  decoration: const InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                Container(
+                  width: 100.0,
+                  child: TextFormField(
+                    cursorColor: Color(0xFF5600C3),
+                    decoration: const InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide:
+                        BorderSide(color: Color(0xFF5600C3)),
+                      ),
+                      labelText: 'Quantidade',
+                      labelStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15.0,
+                      ),
+                      fillColor: Colors.white,
                     ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide:
-                      BorderSide(color: Color(0xFF5600C3)),
-                    ),
-                    labelText: 'Informe sua senha',
-                    labelStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15.0,
-                    ),
-                    fillColor: Colors.white,
+                    style: const TextStyle(color: Colors.white),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, a quantidade.';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      qnt = value;
+                    },
                   ),
-                  style: const TextStyle(color: Colors.white),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, informe sua senha.';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    password = value;
-                  },
                 ),
                 Spacer(),
                 Row(
@@ -152,12 +157,16 @@ class _LoginAccountState extends State<LoginAccount> {
                         ),
                       ),
                       onPressed: () async {
-                        await _auth.signInWithEmailAndPassword(
-                            email: email, password: password);
-                        Navigator.pushNamed(context, Home.id);
+                        if(title.isEmpty || qnt.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Verique as informações.')));
+                        } else {
+                          ShopiiService.addItem(title: title, qnt: int.parse(qnt), personEmail: 'luizkraisch22@gmail.com');
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Item criado!')));
+                          Navigator.pop(context);
+                        }
                       },
                       child: Text(
-                        'Continuar',
+                        'Criar',
                         style: GoogleFonts.poppins(
                           textStyle: const TextStyle(
                             fontSize: 16.0,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shopping_list/views/create_item.view.dart';
 import 'package:shopping_list/views/home_list.view.dart';
 
 class Home extends StatefulWidget {
@@ -21,63 +22,80 @@ class _HomeState extends State<Home> {
           padding: const EdgeInsets.fromLTRB(25, 15, 25, 0),
           child: Column(
             children: [
+              SizedBox(height: 10.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.only(right: 150),
-                        child: Text(
-                          'Olá, Kleber',
-                          style: GoogleFonts.poppins(
-                              fontSize: 22,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const SizedBox(width: 10.0),
-                      const CircleAvatar(
-                        radius: 25,
-                        backgroundImage: NetworkImage(
-                            'https://pbs.twimg.com/media/E-OkEiVXMAIKgkw?format=jpg&name=small'),
-                      )
-                    ],
+                  Text(
+                    'Olá, Usuário',
+                    style: GoogleFonts.poppins(
+                        fontSize: 22,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
                   ),
+                  const SizedBox(width: 10.0),
+                  const CircleAvatar(
+                    radius: 25,
+                    backgroundImage: NetworkImage(
+                        'https://pbs.twimg.com/media/E-OkEiVXMAIKgkw?format=jpg&name=small'),
+                  )
                 ],
               ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    child: Text(
-                      'Essa é a sua lista de compras',
-                      style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ],
+              SizedBox(height: 20.0),
+              Align(
+                alignment: Alignment.topLeft,
+                child: (
+                  Text(
+                    'Essa é a sua lista de compras',
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal),
+                  )
+                )
               ),
-              Row(
-                children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      '12 itens',
-                      style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          color: Colors.white54,
-                          fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ],
+              SizedBox(height: 5.0),
+              Align(
+                alignment: Alignment.topLeft,
+                child: (
+                  Text(
+                    '12 itens',
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      color: Colors.white54,
+                      fontWeight: FontWeight.normal),
+                  )
+                )
               ),
+              SizedBox(height: 20.0),
               HomeList(),
+              Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Color(0xFFB3B3B3),
+                      onSurface: Colors.grey,
+                      padding: EdgeInsets.all(15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(
+                      'Sair',
+                      style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF282828),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10.0),
                   TextButton(
                     style: TextButton.styleFrom(
                       primary: Colors.white,
@@ -88,7 +106,15 @@ class _HomeState extends State<Home> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CreateItem();
+                        },
+                      );
+                    },
                     child: Text(
                       'Adicionar',
                       style: GoogleFonts.poppins(
@@ -101,6 +127,7 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
+              SizedBox(height: 20.0)
             ],
           ),
         ),
