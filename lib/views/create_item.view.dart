@@ -143,7 +143,7 @@ class _CreateItemState extends State<CreateItem> {
                         ),
                       ),
                       onPressed: () async {
-                        ShopiiService.addItem(title: title, qnt: int.parse(qnt), personEmail: user?.email);
+                        ShopiiService.addItem(title: title, qnt: qnt, personEmail: user?.email);
                         ScaffoldMessenger.of(context).showSnackBar( const SnackBar(content: Text('Item criado!')));
                         Navigator.pop(context);
                       },

@@ -4,18 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shopping_list/shopii_service.dart';
 import 'dart:math' as math;
 
-import 'home.view.dart';
+class EditItem extends StatefulWidget {
+  const EditItem({Key? key, required this.id, required this.title, required this.qnt}) : super(key: key);
 
-class EditItemArguments {
   final String id;
   final String title;
   final String qnt;
-
-  EditItemArguments({required this.id, required this.title, required this.qnt});
-}
-
-class EditItem extends StatefulWidget {
-  const EditItem({Key? key}) : super(key: key);
 
   @override
   _EditItemState createState() => _EditItemState();
@@ -27,10 +21,8 @@ class _EditItemState extends State<EditItem> {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as EditItemArguments;
-    _titleController = TextEditingController(text: args.title);
-    _qntController = TextEditingController(text: args.qnt);
+    _titleController = TextEditingController(text: widget.title);
+    _qntController = TextEditingController(text: widget.qnt.toString());
 
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
@@ -152,8 +144,8 @@ class _EditItemState extends State<EditItem> {
                       onPressed: () async {
                         ShopiiService.updateItem(
                             title: _titleController.text,
-                            qnt: _qntController.text,
-                            id: args.id);
+                            qnt: _qntController.text.toString(),
+                            id: widget.id);
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Item editado!')));
                         Navigator.pop(context);

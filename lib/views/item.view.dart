@@ -13,7 +13,7 @@ class Item extends StatelessWidget {
 
   final String id;
   final String title;
-  final int qnt;
+  final String qnt;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class Item extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               backgroundColor: const Color(0xFF5600C3),
               label: Text(
-                '$qnt',
+                qnt,
                 style: GoogleFonts.poppins(
                     fontSize: 18,
                     color: Colors.white,
@@ -34,16 +34,16 @@ class Item extends StatelessWidget {
             ),
             const SizedBox(width: 15),
             SizedBox(
-              width: 100,
+              width: 150,
               child: (
-                  Text(
-                    title,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.poppins(
-                        fontSize: 15,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w300),
-                  )
+                Text(
+                  title,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w300),
+                )
               )
             ),
             const Spacer(),
@@ -53,7 +53,7 @@ class Item extends StatelessWidget {
                   isScrollControlled: true,
                   context: context,
                   builder: (BuildContext context) {
-                    return const EditItem();
+                    return EditItem(id: id, title: title, qnt: qnt);
                   },
                 );
               },

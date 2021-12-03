@@ -85,32 +85,57 @@ class _HomeState extends State<Home> {
                   ))),
               const SizedBox(height: 20.0),
               StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                stream: ShopiiService.getItems(userEmail: user?.email),
-                builder: (context, snapshot) {
-                  List<Item> itemList = [];
+                  stream: ShopiiService.getItems(userEmail: user?.email),
+                  builder: (context, snapshot) {
+                    List<Item> itemList = [];
 
-                  if (snapshot.data!.docs.isEmpty) {
-                    return Text('klshdjfk');
-                  }
+                    if (snapshot.data!.docs.isEmpty) {
+                      return Expanded(
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 120.0),
+                            const Icon(
+                              Icons.add_task_outlined,
+                              size: 100.0,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(height: 10.0),
+                            Text(
+                              'Não existem tarefas',
+                              style: GoogleFonts.poppins(
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              'Crie itens no botão abaixo.',
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal),
+                            )
+                          ],
+                        )
+                      );
+                    }
 
-                  final questions = snapshot.data!.docs;
-                  for (var question in questions) {
-                    itemList.add(Item(
-                      id: question.id,
-                      title: question.data()['title'],
-                      qnt: question.data()['qnt'],
-                    ));
-                  }
+                    final questions = snapshot.data!.docs;
+                    for (var question in questions) {
+                      itemList.add(Item(
+                        id: question.id,
+                        title: question.data()['title'],
+                        qnt: question.data()['qnt'],
+                      ));
+                    }
 
-                  return Expanded(
-                    child: ListView(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 20.0),
-                      children: itemList,
-                    ),
-                  );
-                }
-              ),
+                    return Expanded(
+                      child: ListView(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 20.0),
+                        children: itemList,
+                      ),
+                    );
+                  }),
               const SizedBox(height: 10.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
