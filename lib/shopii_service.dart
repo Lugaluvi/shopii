@@ -5,7 +5,7 @@ final _itemsCollection = _firestore.collection('items');
 
 class ShopiiService {
   static Stream<QuerySnapshot<Map<String, dynamic>>> getItems({
-    required String? userEmail
+    required String userEmail
   }) {
     return _itemsCollection.where('person_email', isEqualTo: userEmail).snapshots();
   }
