@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:shopping_list/views/welcome_screen.dart';
+import 'package:shopping_list/views/welcome.view.dart';
 import 'package:shopping_list/views/home.view.dart';
 
 void main() {
@@ -32,7 +32,6 @@ class _ShoppiAppState extends State<ShoppiApp> {
     return FutureBuilder(
       future: _firebaseInit,
       builder: (context, snapshot) {
-        print(snapshot);
         if (snapshot.hasError) {
           return const MaterialApp(
             home: Scaffold(
@@ -45,8 +44,8 @@ class _ShoppiAppState extends State<ShoppiApp> {
           );
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          return MaterialApp(initialRoute: WelcomeScreen.id, routes: {
-            WelcomeScreen.id: (context) => const WelcomeScreen(),
+          return MaterialApp(initialRoute: Welcome.id, routes: {
+            Welcome.id: (context) => const Welcome(),
             Home.id: (context) => const Home(),
           });
         }

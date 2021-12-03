@@ -58,7 +58,7 @@ class _LoginAccountState extends State<LoginAccount> {
                 ),
                 const SizedBox(height: 15.0),
                 TextFormField(
-                  cursorColor: Color(0xFF5600C3),
+                  cursorColor: const Color(0xFF5600C3),
                   decoration: const InputDecoration(
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
@@ -75,19 +75,14 @@ class _LoginAccountState extends State<LoginAccount> {
                     fillColor: Colors.white,
                   ),
                   style: const TextStyle(color: Colors.white),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, informe seu e-mail.';
-                    }
-                    return null;
-                  },
                   onChanged: (value) {
                     email = value;
                   },
                 ),
                 const SizedBox(height: 15.0),
                 TextFormField(
-                  cursorColor: Color(0xFF5600C3),
+                  obscureText: true,
+                  cursorColor: const Color(0xFF5600C3),
                   decoration: const InputDecoration(
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
@@ -104,26 +99,20 @@ class _LoginAccountState extends State<LoginAccount> {
                     fillColor: Colors.white,
                   ),
                   style: const TextStyle(color: Colors.white),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor, informe sua senha.';
-                    }
-                    return null;
-                  },
                   onChanged: (value) {
                     password = value;
                   },
                 ),
-                Spacer(),
+                const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
                       style: TextButton.styleFrom(
                         primary: Colors.white,
-                        backgroundColor: Color(0xFFB3B3B3),
+                        backgroundColor: const Color(0xFFB3B3B3),
                         onSurface: Colors.grey,
-                        padding: EdgeInsets.all(15),
+                        padding: const EdgeInsets.all(15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -144,9 +133,9 @@ class _LoginAccountState extends State<LoginAccount> {
                     TextButton(
                       style: TextButton.styleFrom(
                         primary: Colors.white,
-                        backgroundColor: Color(0xFF5600C3),
+                        backgroundColor: const Color(0xFF5600C3),
                         onSurface: Colors.grey,
-                        padding: EdgeInsets.all(15),
+                        padding: const EdgeInsets.all(15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),

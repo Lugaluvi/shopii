@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:math' as math;
 
 import 'package:shopping_list/views/create_account.view.dart';
 import 'package:shopping_list/views/login_account.view.dart';
 
-class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+class Welcome extends StatefulWidget {
+  const Welcome({Key? key}) : super(key: key);
 
   static const String id = 'welcome_screen';
 
   @override
-  State<WelcomeScreen> createState() => _WelcomeScreenState();
+  State<Welcome> createState() => _WelcomeState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,13 +52,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ],
               ),
             ),
-            Spacer(),
+            const Spacer(),
             TextButton(
               style: TextButton.styleFrom(
                 primary: Colors.white,
-                backgroundColor: Color(0xFF5600C3),
+                backgroundColor: const Color(0xFF5600C3),
                 onSurface: Colors.grey,
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -69,7 +68,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   isScrollControlled: true,
                   context: context,
                   builder: (BuildContext context) {
-                    return CreateAccount();
+                    return const CreateAccount();
                   },
                 );
               },
@@ -83,13 +82,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 15.0),
+            const SizedBox(height: 15.0),
             TextButton(
               style: TextButton.styleFrom(
                 primary: Colors.white,
-                backgroundColor: Color(0xFFB3B3B3),
+                backgroundColor: const Color(0xFFB3B3B3),
                 onSurface: Colors.grey,
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -99,7 +98,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   isScrollControlled: true,
                   context: context,
                   builder: (BuildContext context) {
-                    return LoginAccount();
+                    return const LoginAccount();
                   },
                 );
               },

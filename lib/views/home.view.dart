@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shopping_list/views/create_item.view.dart';
 import 'package:shopping_list/views/item.view.dart';
+
+import '../shopii_service.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,6 +16,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final user = FirebaseAuth.instance.currentUser;
+
+  itemsCount() async {
+    int count = await ShopiiService.itemsCount(userEmail: user?.email);
+    return count;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,18 +37,26 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    'Olá, Usuário',
+                    'Olá! Boas-vindas',
                     style: GoogleFonts.poppins(
                         fontSize: 22,
                         color: Colors.white,
                         fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(width: 10.0),
-                  const CircleAvatar(
-                    radius: 25,
-                    backgroundImage: NetworkImage(
-                        'https://pbs.twimg.com/media/E-OkEiVXMAIKgkw?format=jpg&name=small'),
-                  )
+                  Ink(
+                    decoration: const ShapeDecoration(
+                      color: Colors.white,
+                      shape: CircleBorder(),
+                    ),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.meeting_room_outlined,
+                      ),
+                      color: const Color(0xFF5600C3),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 20.0),
@@ -51,15 +69,18 @@ class _HomeState extends State<Home> {
                         color: Colors.white,
                         fontWeight: FontWeight.normal),
                   ))),
-              const SizedBox(height: 5.0),
+              const SizedBox(height: 2.0),
               Align(
                   alignment: Alignment.topLeft,
-                  child: (Text(
-                    '12 itens',
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        color: Colors.white54,
-                        fontWeight: FontWeight.normal),
+                  child: (Chip(
+                    backgroundColor: Colors.white,
+                    label: Text(
+                      'Aqui era pra ter um contador',
+                      style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          color: Colors.grey[900],
+                          fontWeight: FontWeight.normal),
+                    ),
                   ))),
               const SizedBox(height: 20.0),
               Item(),
@@ -67,28 +88,6 @@ class _HomeState extends State<Home> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Color(0xFFB3B3B3),
-                      onSurface: Colors.grey,
-                      padding: const EdgeInsets.all(15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(
-                      'Sair',
-                      style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF282828),
-                        ),
-                      ),
-                    ),
-                  ),
                   const SizedBox(width: 10.0),
                   TextButton(
                     style: TextButton.styleFrom(
@@ -105,7 +104,7 @@ class _HomeState extends State<Home> {
                         isScrollControlled: true,
                         context: context,
                         builder: (BuildContext context) {
-                          return CreateItem();
+                          return const CreateItem();
                         },
                       );
                     },
@@ -121,7 +120,7 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
-              SizedBox(height: 20.0)
+              const SizedBox(height: 20.0)
             ],
           ),
         ),
