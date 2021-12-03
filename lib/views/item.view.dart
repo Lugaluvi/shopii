@@ -8,12 +8,12 @@ class Item extends StatelessWidget {
     Key? key,
     required this.id,
     required this.title,
-    required this.qtn,
+    required this.qnt,
   }) : super(key: key);
 
   final String id;
   final String title;
-  final int qtn;
+  final int qnt;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class Item extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               backgroundColor: const Color(0xFF5600C3),
               label: Text(
-                '$qtn',
+                '$qnt',
                 style: GoogleFonts.poppins(
                     fontSize: 18,
                     color: Colors.white,

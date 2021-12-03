@@ -4,16 +4,18 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final _itemsCollection = _firestore.collection('items');
 
 class ShopiiService {
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getItems({
-    required String userEmail
-  }) {
-    return _itemsCollection.where('person_email', isEqualTo: userEmail).snapshots();
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getItems(
+      {required String userEmail}) {
+    return _itemsCollection
+        .where('person_email', isEqualTo: userEmail)
+        .snapshots();
   }
 
-  static Future<int> itemsCount({
-    required String? userEmail
-  }) async {
-    return await _itemsCollection.where('person_email', isEqualTo: userEmail).snapshots().length;
+  static Future<int> itemsCount({required String? userEmail}) async {
+    return await _itemsCollection
+        .where('person_email', isEqualTo: userEmail)
+        .snapshots()
+        .length;
   }
 
   static Future<void> addItem({
