@@ -4,8 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shopping_list/shopii_service.dart';
 import 'dart:math' as math;
 
-import 'home.view.dart';
-
 class CreateItem extends StatefulWidget {
   const CreateItem({Key? key}) : super(key: key);
 
@@ -16,7 +14,7 @@ class CreateItem extends StatefulWidget {
 class _CreateItemState extends State<CreateItem> {
   late String title = '';
   late String qnt = '';
-  final _auth = FirebaseAuth.instance;
+  final user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +58,7 @@ class _CreateItemState extends State<CreateItem> {
                 ),
                 const SizedBox(height: 15.0),
                 TextFormField(
-                  cursorColor: Color(0xFF5600C3),
+                  cursorColor: const Color(0xFF5600C3),
                   decoration: const InputDecoration(
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
@@ -77,21 +75,15 @@ class _CreateItemState extends State<CreateItem> {
                     fillColor: Colors.white,
                   ),
                   style: const TextStyle(color: Colors.white),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Yay! A SnackBar!')));
-                    }
-                    return null;
-                  },
                   onChanged: (value) {
                     title = value;
                   },
                 ),
                 const SizedBox(height: 15.0),
-                Container(
+                SizedBox(
                   width: 100.0,
                   child: TextFormField(
-                    cursorColor: Color(0xFF5600C3),
+                    cursorColor: const Color(0xFF5600C3),
                     decoration: const InputDecoration(
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.white),
@@ -108,27 +100,21 @@ class _CreateItemState extends State<CreateItem> {
                       fillColor: Colors.white,
                     ),
                     style: const TextStyle(color: Colors.white),
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Por favor, a quantidade.';
-                      }
-                      return null;
-                    },
                     onChanged: (value) {
                       qnt = value;
                     },
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
                       style: TextButton.styleFrom(
                         primary: Colors.white,
-                        backgroundColor: Color(0xFFB3B3B3),
+                        backgroundColor: const Color(0xFFB3B3B3),
                         onSurface: Colors.grey,
-                        padding: EdgeInsets.all(15),
+                        padding: const EdgeInsets.all(15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -149,21 +135,17 @@ class _CreateItemState extends State<CreateItem> {
                     TextButton(
                       style: TextButton.styleFrom(
                         primary: Colors.white,
-                        backgroundColor: Color(0xFF5600C3),
+                        backgroundColor: const Color(0xFF5600C3),
                         onSurface: Colors.grey,
-                        padding: EdgeInsets.all(15),
+                        padding: const EdgeInsets.all(15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       onPressed: () async {
-                        if(title.isEmpty || qnt.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Verique as informações.')));
-                        } else {
-                          ShopiiService.addItem(title: title, qnt: int.parse(qnt), personEmail: 'luizkraisch22@gmail.com');
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Item criado!')));
-                          Navigator.pop(context);
-                        }
+                        ShopiiService.addItem(title: title, qnt: int.parse(qnt), personEmail: user?.email);
+                        ScaffoldMessenger.of(context).showSnackBar( const SnackBar(content: Text('Item criado!')));
+                        Navigator.pop(context);
                       },
                       child: Text(
                         'Criar',
