@@ -8,12 +8,12 @@ class Item extends StatelessWidget {
     Key? key,
     required this.id,
     required this.title,
-    required this.qtn,
+    required this.qnt,
   }) : super(key: key);
 
   final String id;
   final String title;
-  final int qtn;
+  final int qnt;
 
   @override
   Widget build(BuildContext context) {
@@ -25,23 +25,28 @@ class Item extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               backgroundColor: const Color(0xFF5600C3),
               label: Text(
-                '$qtn',
+                '$qnt',
                 style: GoogleFonts.poppins(
                     fontSize: 18,
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
             ),
-            const SizedBox(width: 20),
-            Text(
-              title,
-              style: GoogleFonts.poppins(
-                  fontSize: 22,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w300),
+            const SizedBox(width: 15),
+            SizedBox(
+              width: 100,
+              child: (
+                  Text(
+                    title,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.poppins(
+                        fontSize: 15,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300),
+                  )
+              )
             ),
-            const SizedBox(width: 130),
-            const SizedBox(width: 20),
+            const Spacer(),
             IconButton(
               onPressed: () {
                 showModalBottomSheet<void>(

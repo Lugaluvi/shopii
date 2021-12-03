@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -29,7 +30,7 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.grey[900],
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(25, 15, 25, 0),
+          padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
           child: Column(
             children: [
               const SizedBox(height: 10.0),
@@ -83,8 +84,34 @@ class _HomeState extends State<Home> {
                     ),
                   ))),
               const SizedBox(height: 20.0),
-              Item(),
-              const Spacer(),
+              StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                stream: ShopiiService.getItems(userEmail: user?.email),
+                builder: (context, snapshot) {
+                  List<Item> itemList = [];
+
+                  if (snapshot.data!.docs.isEmpty) {
+                    return Text('klshdjfk');
+                  }
+
+                  final questions = snapshot.data!.docs;
+                  for (var question in questions) {
+                    itemList.add(Item(
+                      id: question.id,
+                      title: question.data()['title'],
+                      qnt: question.data()['qnt'],
+                    ));
+                  }
+
+                  return Expanded(
+                    child: ListView(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 20.0),
+                      children: itemList,
+                    ),
+                  );
+                }
+              ),
+              const SizedBox(height: 10.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
