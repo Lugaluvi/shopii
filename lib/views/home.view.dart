@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shopping_list/views/create_item.view.dart';
-import 'package:shopping_list/views/home_list.view.dart';
+import 'package:shopping_list/views/item.view.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class _HomeState extends State<Home> {
           padding: const EdgeInsets.fromLTRB(25, 15, 25, 0),
           child: Column(
             children: [
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -41,35 +41,29 @@ class _HomeState extends State<Home> {
                   )
                 ],
               ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
               Align(
-                alignment: Alignment.topLeft,
-                child: (
-                  Text(
+                  alignment: Alignment.topLeft,
+                  child: (Text(
                     'Essa é a sua lista de compras',
                     style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal),
-                  )
-                )
-              ),
-              SizedBox(height: 5.0),
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal),
+                  ))),
+              const SizedBox(height: 5.0),
               Align(
-                alignment: Alignment.topLeft,
-                child: (
-                  Text(
+                  alignment: Alignment.topLeft,
+                  child: (Text(
                     '12 itens',
                     style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      color: Colors.white54,
-                      fontWeight: FontWeight.normal),
-                  )
-                )
-              ),
-              SizedBox(height: 20.0),
-              HomeList(),
-              Spacer(),
+                        fontSize: 14,
+                        color: Colors.white54,
+                        fontWeight: FontWeight.normal),
+                  ))),
+              const SizedBox(height: 20.0),
+              Item(),
+              const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
@@ -78,7 +72,7 @@ class _HomeState extends State<Home> {
                       primary: Colors.white,
                       backgroundColor: Color(0xFFB3B3B3),
                       onSurface: Colors.grey,
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
