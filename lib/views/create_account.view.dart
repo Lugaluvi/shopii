@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shopping_list/shopii_service.dart';
 import 'dart:math' as math;
+
+import 'home.view.dart';
 
 class CreateAccount extends StatefulWidget {
   const CreateAccount({Key? key}) : super(key: key);
@@ -74,6 +77,9 @@ class _CreateAccountState extends State<CreateAccount> {
                     ),
                     fillColor: Colors.white,
                   ),
+                  onChanged: (value) {
+                    name = value;
+                  },
                   style: const TextStyle(color: Colors.white),
                 ),
                 const SizedBox(height: 15.0),
@@ -168,9 +174,13 @@ class _CreateAccountState extends State<CreateAccount> {
                         ),
                       ),
                       onPressed: () async {
+                        ShopiiService.createUser(personEmail: email, personName: name);
                         await _auth.createUserWithEmailAndPassword(
                             email: email, password: password);
-                        //Navigator.pushNamed(context, MainScreen.id);
+                        await _auth.signInWithEmailAndPassword(
+                            email: email, password: password);
+                        Navigator.pushNamed(context, Home.id);
+                        ScaffoldMessenger.of(context).showSnackBar( const SnackBar(content: Text('Conta criada com sucesso. Boas-vindas!')));
                       },
                       child: Text(
                         'Continuar',

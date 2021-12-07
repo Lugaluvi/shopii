@@ -19,11 +19,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final user = FirebaseAuth.instance.currentUser;
 
-  itemsCount() async {
-    int count = await ShopiiService.itemsCount(userEmail: user?.email);
-    return count;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,33 +29,49 @@ class _HomeState extends State<Home> {
           child: Column(
             children: [
               const SizedBox(height: 10.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Olá! Boas-vindas',
-                    style: GoogleFonts.poppins(
-                        fontSize: 22,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(width: 10.0),
-                  Ink(
-                    decoration: const ShapeDecoration(
-                      color: Colors.white,
-                      shape: CircleBorder(),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.meeting_room_outlined,
-                      ),
-                      color: const Color(0xFF5600C3),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20.0),
+              StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                  stream: ShopiiService.userInfo(userEmail: user?.email),
+                  builder: (context, snapshot) {
+                    List<Widget> userList = [];
+
+                    final users = snapshot.data!.docs;
+                    for (var user in users) {
+                      userList.add(
+                        Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'Olá, ${user.data()['person_name']}',
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 22,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(width: 10.0),
+                                Ink(
+                                  decoration: const ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: CircleBorder(),
+                                  ),
+                                  child: IconButton(
+                                    icon: const Icon(
+                                      Icons.meeting_room_outlined,
+                                    ),
+                                    color: const Color(0xFF5600C3),
+                                    onPressed: () => Navigator.pop(context),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20.0),
+                          ],
+                        ),
+                      );
+                    }
+                    return userList.first;
+                  }),
               Align(
                   alignment: Alignment.topLeft,
                   child: (Text(
@@ -70,7 +81,6 @@ class _HomeState extends State<Home> {
                         color: Colors.white,
                         fontWeight: FontWeight.normal),
                   ))),
-              const SizedBox(height: 2.0),
               Align(
                   alignment: Alignment.topLeft,
                   child: (Chip(
@@ -83,7 +93,7 @@ class _HomeState extends State<Home> {
                           fontWeight: FontWeight.normal),
                     ),
                   ))),
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 10.0),
               StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                   stream: ShopiiService.getItems(userEmail: user?.email),
                   builder: (context, snapshot) {
@@ -91,32 +101,32 @@ class _HomeState extends State<Home> {
 
                     if (snapshot.data!.docs.isEmpty) {
                       return Expanded(
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 120.0),
-                            const Icon(
-                              Icons.add_task_outlined,
-                              size: 100.0,
-                              color: Colors.white,
-                            ),
-                            const SizedBox(height: 10.0),
-                            Text(
-                              'Não existem tarefas',
-                              style: GoogleFonts.poppins(
-                                  fontSize: 22,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'Crie itens no botão abaixo.',
-                              style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal),
-                            )
-                          ],
-                        )
-                      );
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.add_task_outlined,
+                            size: 100.0,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(height: 10.0),
+                          Text(
+                            'Não existem itens',
+                            style: GoogleFonts.poppins(
+                                fontSize: 22,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'Crie um item no botão abaixo.',
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal),
+                          )
+                        ],
+                      ));
                     }
 
                     final questions = snapshot.data!.docs;
@@ -131,16 +141,16 @@ class _HomeState extends State<Home> {
                     return Expanded(
                       child: ListView(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 20.0),
+                            horizontal: 5.0, vertical: 5.0),
                         children: itemList,
                       ),
                     );
                   }),
-              const SizedBox(height: 10.0),
+              const SizedBox(height: 15.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  const SizedBox(width: 10.0),
+                  const SizedBox(width: 5.0),
                   TextButton(
                     style: TextButton.styleFrom(
                       primary: Colors.white,

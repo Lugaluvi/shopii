@@ -59,7 +59,7 @@ class Item extends StatelessWidget {
               },
               icon: const Icon(Icons.edit_outlined),
               color: Colors.white,
-              iconSize: 35,
+              iconSize: 30,
             ),
             IconButton(
               onPressed: () {
@@ -67,12 +67,9 @@ class Item extends StatelessWidget {
               },
               icon: const Icon(Icons.clear_outlined),
               color: Colors.white,
-              iconSize: 35,
+              iconSize: 30,
             ),
           ],
-        ),
-        const SizedBox(
-          height: 10,
         ),
         const Divider(
           color: Colors.white12,

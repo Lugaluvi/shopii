@@ -2,18 +2,36 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final _itemsCollection = _firestore.collection('items');
+final _usersCollection = _firestore.collection('users');
 
 class ShopiiService {
+  static Future<void> createUser({
+    required String? personEmail,
+    required String? personName,
+  }) async {
+    DocumentReference user = _usersCollection.doc();
+
+    Map<String, dynamic> data = {
+      'person_email': personEmail,
+      'person_name': personName,
+    };
+
+    await user
+        .set(data)
+        .whenComplete(() => print('Usuário criado!'))
+        .catchError((e) => print(e));
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> userInfo({
+    required String? userEmail
+  }) {
+    return _usersCollection.where('person_email', isEqualTo: userEmail).snapshots();
+  }
+
   static Stream<QuerySnapshot<Map<String, dynamic>>> getItems({
     required String? userEmail
   }) {
     return _itemsCollection.where('person_email', isEqualTo: userEmail).snapshots();
-  }
-
-  static Future<int> itemsCount({
-    required String? userEmail
-  }) async {
-    return await _itemsCollection.where('person_email', isEqualTo: userEmail).snapshots().length;
   }
 
   static Future<void> addItem({
@@ -40,14 +58,14 @@ class ShopiiService {
     required String qnt,
     required String id,
   }) async {
-    DocumentReference note = _itemsCollection.doc(id);
+    DocumentReference item = _itemsCollection.doc(id);
 
     Map<String, dynamic> data = {
       'title': title,
       'qnt': qnt,
     };
 
-    await note
+    await item
         .update(data)
         .whenComplete(() => print('Item atualizado.'))
         .catchError((e) => print(e));
