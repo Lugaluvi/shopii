@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.shopping_list">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="shopping_list"
+        android:label="Shopii"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
